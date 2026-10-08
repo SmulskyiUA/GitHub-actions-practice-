@@ -26,3 +26,10 @@ jobs:
 
       - name: Show build.txt content
         run: cat build.txt
+        
+    build:
+      runs-on: ubuntu-latest
+      needs: test
+      steps:
+        - name: Build started
+          run: echo "Test passed, starting build"
