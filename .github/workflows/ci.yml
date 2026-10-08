@@ -1,1 +1,28 @@
+name: CI
 
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello
+        run: echo "Hello from GitHub Actions!"
+
+      - name: Bash version
+        run: bash --version
+
+      - name: Python version
+        run: python3 --version
+
+      - name: Create build.txt
+        run: echo "Build successful" > build.txt
+
+      - name: Check that build.txt exists
+        run: test -f build.txt && echo "build.txt exists"
+
+      - name: Show build.txt content
+        run: cat build.txt
