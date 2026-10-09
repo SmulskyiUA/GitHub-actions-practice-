@@ -34,10 +34,6 @@ jobs:
       - name: Build started
         run: echo "Test passed, starting build!"
 
-      # Навмисна помилка для перевірки
-      - name: Force failure
-        run: exit 1
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -45,3 +41,7 @@ jobs:
       - uses: actions/setup-python@v5
       - run: pip install pre-commit
       - run: pre-commit run --all-files
+
+      # Навмисна помилка для перевірки
+      - name: Force failure
+        run: exit 1
