@@ -32,4 +32,4 @@ jobs:
       needs: test
       steps:
         - name: Build started
-          run: echo "Test passed, starting build"
+          run: echo "Test passed, starting build!"
