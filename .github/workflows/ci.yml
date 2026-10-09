@@ -37,6 +37,10 @@ jobs:
       - name: Build started
         run: echo "Test passed, starting build!"
 
+      # Навмисна помилка для перевірки
+      - name: Force failure
+        run: exit 1
+
   lint:
     runs-on: ubuntu-latest
     steps:
