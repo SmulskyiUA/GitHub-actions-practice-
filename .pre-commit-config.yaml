@@ -1,3 +1,4 @@
+---
 repos:
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.35.1
@@ -15,3 +16,12 @@ repos:
     hooks:
       - id: prettier
         files: \.ya?ml$
+
+  - repo: local
+    hooks:
+      - id: check-todo
+        name: Check for TODO comments
+        entry: bash scripts/check-todo.sh
+        language: system
+        types: [text]
+        exclude: ^(\.pre-commit-config\.yaml|scripts/check-todo\.sh)$
