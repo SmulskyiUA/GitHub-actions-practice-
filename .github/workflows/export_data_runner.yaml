@@ -1,0 +1,24 @@
+---
+name: Artifact experiment
+
+"on":
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Build successful" > build.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-file
+          path: build.txt
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      # - uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-file
+      - run: cat build.txt
