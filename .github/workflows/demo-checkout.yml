@@ -1,0 +1,57 @@
+---
+# Add a description of the workflow here
+
+name: Demo checkout
+
+"on":
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Де ми знаходимось
+        run: |
+          echo "Поточна директорія: $(pwd)"
+          echo "GITHUB_WORKSPACE:    $GITHUB_WORKSPACE"
+          echo "Репозиторій:         $GITHUB_REPOSITORY"
+          echo "Коміт:               $GITHUB_SHA"
+
+      - name: 2. ДО checkout - що лежить у робочій директорії
+        run: |
+          ls -la "$GITHUB_WORKSPACE"
+          echo "Кількість файлів: $(find "$GITHUB_WORKSPACE" -type f | wc -l)"
+
+      - name: 3. Checkout
+        uses: actions/checkout@v4
+
+      - name: 4. ПІСЛЯ checkout - верхній рівень
+        run: ls -la "$GITHUB_WORKSPACE"
+
+      - name: 5. ПІСЛЯ checkout - усі файли репозиторію (без .git)
+        run: |
+          find . -type f -not -path "./.git/*" | sort
+          count=$(find . -type f -not -path './.git/*' | wc -l)
+          echo "Кількість файлів: $count"
+
+      - name: 6. Git-інформація
+        run: |
+          echo "--- останній коміт ---"
+          git log --oneline -1
+          echo "--- гілка/стан ---"
+          git status
+          echo "--- розмір історії .git ---"
+          du -sh .git
+          echo "--- кількість комітів в історії ---"
+          git rev-list --count HEAD
+
+  isolation:
+    runs-on: ubuntu-latest
+    needs: demo
+    steps:
+      - name: Інший job = інша чиста машина
+        run: |
+          echo "Файли тут (checkout не робили):"
+          ls -la "$GITHUB_WORKSPACE"
